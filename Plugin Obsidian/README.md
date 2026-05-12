@@ -54,7 +54,7 @@ Você precisa criar as tabelas necessárias no seu projeto Supabase. Escolha uma
 3. Vincule seu projeto
    ```bash
    supabase link --project-ref <id-do-projeto>
-   # You can get <project-id> from your project's dashboard URL: https://supabase.com/dashboard/project/<project-id>   
+   # Você pode pegar o <id-do-projeto> no dashboard do seu projeto: https://supabase.com/dashboard/project/<id-do-projeto>   
    ```
 4. Envie as tabelas
    ```bash
