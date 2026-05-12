@@ -1,0 +1,36 @@
+.modal {
+  --background-primary: var(--background-primary);
+  --background-secondary: var(--background-secondary);
+  --text-normal: var(--text-normal);
+  --interactive-accent: var(--interactive-accent);
+}
+
+.similar-section {
+  padding: 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  display: flex;
+  align-items: center;
+}
+
+.similar-section input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.progress-bar {
+  background: var(--background-secondary);
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: var(--interactive-accent);
+  height: 100%;
+  transition: width 0.3s;
+}
+
+.log-entry {
+  padding: 4px 0;
+  border-bottom: 1px solid var(--background-modifier-border);
+  font-size: 0.9em;
+}

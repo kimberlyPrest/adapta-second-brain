@@ -1,0 +1,29 @@
+{
+  "name": "adapta-second-brain",
+  "version": "1.0.0",
+  "description": "Obsidian plugin for syncing vault to Supabase with embeddings",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "keywords": [
+    "obsidian",
+    "supabase",
+    "embeddings"
+  ],
+  "author": "Adapta",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.19",
+    "builtin-modules": "^5.2.0",
+    "esbuild": "0.20.2",
+    "obsidian": "latest",
+    "tslib": "2.6.2",
+    "typescript": "5.3.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "gray-matter": "^4.0.3"
+  }
+}

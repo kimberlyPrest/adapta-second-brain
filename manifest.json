@@ -1,0 +1,9 @@
+{
+  "id": "adapta-second-brain",
+  "name": "Adapta Second Brain",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Sincroniza vault com Supabase e aprende com tudo que você escreve. Section-level embeddings, Realtime, Workspace integration.",
+  "author": "Adapta",
+  "isDesktopOnly": true
+}
