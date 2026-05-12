@@ -7,7 +7,7 @@ O **Adapta Second Brain** é um plugin para Obsidian que integra seu "Segundo C�
 - **Sincronização Bidirecional Realtime**: Edite no Obsidian e veja no banco de dados (e vice-versa) instantaneamente via WebSockets.
 - **Busca Híbrida e Semântica**: Encontre notas não apenas por palavras-chave, mas pelo *significado* do conteúdo.
 - **Sugestão de Links Inteligentes**: O plugin sugere notas relacionadas para vincular à sua nota ativa com base no contexto.
-- **Log de Sincronização**: Acompanhe o status de cada nota enviada ou recebida.
+- **Log de Sincronização**: Acompanhe o status de cada nota enviada ou recebida na tabela `obsidian_sync_log`.
 - **Proteção Anti-Loop**: Sistema inteligente que evita loops infinitos de sincronização entre local e remoto.
 - **Debounce de Escrita**: Sincroniza apenas após 30 segundos de inatividade, garantindo fluidez enquanto você escreve.
 
@@ -27,23 +27,26 @@ Para usar este plugin, você precisará de uma instância do Supabase configurad
 
 ### Pré-requisitos
 1. **Supabase URL & Key**: Um projeto Supabase. Obtenha suas credenciais no painel do Supabase.
-   1. **URL do projeto**: EX: https://[id_projeto].supabase.co
-   2. **Chave service_role Supabase**: Chave de serviço (não anônima). Vá em Project Settings > API > Legacy anon, service_role API keys e pegue a credencial 'service_role'.
-2. **OpenAI Key**: Uma chave de API da OpenAI ([OpenAI API keys](https://platform.openai.com/account/api-keys)).
+   1. **URL do projeto**: EX: `https://[id_projeto].supabase.co`
+   2. **Chave service_role**: Vá em **Project Settings > API** e pegue a credencial `service_role`. 
+      > [!CAUTION]
+      > **ALERTA DE SEGURANÇA**: Esta chave ignora as políticas de segurança (RLS). Nunca a compartilhe, nunca a envie para o GitHub e use-a apenas localmente no Obsidian.
+2. **OpenAI Key**: Uma chave de API para gerar os embeddings - ([OpenAI API keys](https://platform.openai.com/account/api-keys)).
+   - **Modelos compatíveis (1536 dimensões)**: `text-embedding-3-small` (recomendado) ou `text-embedding-ada-002`.
 3. **Vault**: No Obsidian, tenha um vault (COFRE) criado, recomendo que seja na pasta de documentos.
-4. **Realtime**: No Supabase, habilite o "Postgres Changes" para a tabela `obsidian_notes` na publicação `supabase_realtime`.
 
 ---
 
 ### 📦 Passo 1: Configure o Banco de Dados (Supabase)
 
-Você precisa criar as tabelas necessárias no seu projeto Supabase. Escolha uma das opções:
+Você precisa criar 3 tabelas (`obsidian_notes`, `obsidian_note_sections`, `obsidian_sync_log`) e habilitar extensões como o `pgvector`. Para isso você pode escolher uma das opções abaixo:
 
 #### A. Manualmente (Mais fácil e rápido)
-1. No painel do Supabase, acesse o **SQL Editor**.
-2. Crie uma nova query.
-3. Copie o conteúdo do arquivo de migração (disponível na pasta `supabase/migrations` deste repositório).
-4. Execute a query e verifique se as tabelas `obsidian_notes` e `obsidian_sections` aparecem no **Table Editor**.
+1. No painel do Supabase, vá em **Database > Extensions** e certifique-se de que a extensão **vector** está ativa.
+2. Acesse o **SQL Editor**.
+3. Copie o conteúdo do arquivo de migração: `supabase/migrations/20260512000001_init_obsidian_plugin.sql`.
+4. Execute a query e verifique no **Table Editor** se as tabelas foram criadas.
+5. **Realtime**: Vá em **Database > Replication > supabase_realtime** e confirme se as tabelas `obsidian_notes` e `obsidian_note_sections` estão com o switch **ON**.
 
 #### B. Via CLI do Supabase
 1. Instale a CLI do Supabase ([Instruções](https://supabase.com/docs/guides/cli)).
@@ -54,7 +57,7 @@ Você precisa criar as tabelas necessárias no seu projeto Supabase. Escolha uma
 3. Vincule seu projeto
    ```bash
    supabase link --project-ref <id-do-projeto>
-   # Você pode pegar o <id-do-projeto> no dashboard do seu projeto: https://supabase.com/dashboard/project/<id-do-projeto>   
+   # You can get <project-id> from your project's dashboard URL: https://supabase.com/dashboard/project/<project-id>   
    ```
 4. Envie as tabelas
    ```bash
@@ -68,7 +71,7 @@ Você precisa criar as tabelas necessárias no seu projeto Supabase. Escolha uma
 Agora, vamos colocar o plugin dentro da sua pasta do Obsidian.
 
 #### A. Via Terminal (Recomendado)
-1. Abra o terminal e navegue até a pasta de plugins do seu vault:
+1. Navegue até a pasta de plugins do seu vault:
    ```bash
    cd path/to/your/vault/.obsidian/plugins/
    ```
@@ -77,18 +80,18 @@ Agora, vamos colocar o plugin dentro da sua pasta do Obsidian.
    git clone https://github.com/kimberlyPrest/adapta-second-brain.git
    cd adapta-second-brain
    ```
-3. Instale as dependências e compile o plugin:
+3. Instale e compile:
    ```bash
-   npm install
-   npm run build
+   npm install && npm run build
    ```
 
 #### B. Manualmente (Via Downgit)
-1. Use o [Downgit](https://downgit.github.io/) para baixar apenas a pasta do plugin e use o link - https://github.com/kimberlyPrest/adapta-second-brain/tree/main/Plugin%20Obsidian
+1. Use o [Downgit](https://downgit.github.io/) para baixar a pasta com esse link: https://github.com/kimberlyPrest/adapta-second-brain/tree/main/Plugin%20Obsidian
 2. Extraia o arquivo `.zip` baixado.
 3. No seu computador, navegue até a pasta do seu Vault do Obsidian.
-4. Entre na pasta oculta `.obsidian` e depois na pasta `plugins`.
-   > No Mac, use `Cmd + Shift + .` para ver pastas ocultas. 
+4. Entre na pasta oculta `.obsidian` e entre na pasta `plugins`.
+   > [!NOTE]
+   > No Mac, use `Cmd + Shift + .` para ver pastas ocultas.
    > No Windows, você pode precisar ir na aba "Exibir" e marcar "Itens ocultos"
    > Se a pasta `plugins` não existir, crie-a.
 5. Mova a pasta baixada para dentro de `plugins` e renomeie para `adapta-second-brain` ou o nome que preferir.
