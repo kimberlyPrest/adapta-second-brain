@@ -88,7 +88,6 @@ Agora, vamos colocar o plugin dentro da sua pasta do Obsidian.
 2. Extraia o arquivo `.zip` baixado.
 3. No seu computador, navegue até a pasta do seu Vault do Obsidian.
 4. Entre na pasta oculta `.obsidian` e depois na pasta `plugins`.
-   > [!NOTE]
    > No Mac, use `Cmd + Shift + .` para ver pastas ocultas. 
    > No Windows, você pode precisar ir na aba "Exibir" e marcar "Itens ocultos"
    > Se a pasta `plugins` não existir, crie-a.
