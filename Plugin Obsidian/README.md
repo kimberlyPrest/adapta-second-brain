@@ -29,7 +29,6 @@ Para usar este plugin, você precisará de uma instância do Supabase configurad
 1. **Supabase URL & Key**: Um projeto Supabase. Obtenha suas credenciais no painel do Supabase.
    1. **URL do projeto**: EX: `https://[id_projeto].supabase.co`
    2. **Chave service_role**: Vá em **Project Settings > API** e pegue a credencial `service_role`. 
-      > [!CAUTION]
       > **ALERTA DE SEGURANÇA**: Esta chave ignora as políticas de segurança (RLS). Nunca a compartilhe, nunca a envie para o GitHub e use-a apenas localmente no Obsidian.
 2. **OpenAI Key**: Uma chave de API para gerar os embeddings - ([OpenAI API keys](https://platform.openai.com/account/api-keys)).
    - **Modelos compatíveis (1536 dimensões)**: `text-embedding-3-small` (recomendado) ou `text-embedding-ada-002`.
@@ -90,7 +89,6 @@ Agora, vamos colocar o plugin dentro da sua pasta do Obsidian.
 2. Extraia o arquivo `.zip` baixado.
 3. No seu computador, navegue até a pasta do seu Vault do Obsidian.
 4. Entre na pasta oculta `.obsidian` e entre na pasta `plugins`.
-   > [!NOTE]
    > No Mac, use `Cmd + Shift + .` para ver pastas ocultas.
    > No Windows, você pode precisar ir na aba "Exibir" e marcar "Itens ocultos"
    > Se a pasta `plugins` não existir, crie-a.
